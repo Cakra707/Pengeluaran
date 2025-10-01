@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  
+</head>
+<body>
+<style>
+    .grid {
+      display: flex;
+        
+    }
+</style>
+    <input class="inputKet" placeholder="Keterangan">
+      <input class="inputUang" placeholder="Jumlah Uang (ribu)">
+      <input type="date" class="inputDate">
+    <button onclick="
+    p()
+    " class="keluar">Keluar</button>
+    <button onclick="
+ msk()
+    " class="masuk">Masuk</button>
+
+    
+
+    <button onclick="
+    l()">reset</button>
+
+     
+
+    
+    
+    <div class="er grid"></div>
+
+</body>
+    <script>
+        let array8 = JSON.parse(localStorage.getItem('saver')) || []
+
+        f()
+       
+        let uangSekarang = Number(localStorage.getItem('uangSekarang')) || 1750 //juta or k
+        
+        function l() {
+
+            array8 = []
+            localStorage.removeItem('saver') 
+            localStorage.removeItem('uangSekarang')
+        }
+    
+        
+
+        function f() {
+            
+            let r = ''
+
+          for( let i = 0; i < array8.length; i++) {
+            const todoobject = array8[i];
+            const {ket, uang, date, uangsekarang} = todoobject
+            const html = `<div>${ket}</>
+                        <div>${uang}K</>
+                         <div>${date}</>
+                          <div> Uang saat ini: ${uangsekarang}K</>`
+            
+            r += html
+            
+             
+          }
+            document.querySelector('.er').innerHTML = `${r}`
+            
+        }
+       
+        function p() {
+
+            const inputKet = document.querySelector('.inputKet')
+            const ket = inputKet.value
+              const inputUang = document.querySelector('.inputUang')
+            const uang = inputUang.value
+
+             const inputDate= document.querySelector('.inputDate')
+            const date = inputDate.value
+            
+            
+                uangSekarang -= Number(uang)
+               
+           
+            array8.push({
+                ket: ket,
+                uang: uang,
+                date: date,
+                uangsekarang : uangSekarang
+            })
+                
+           inputKet.value = ''
+           inputUang.value = ''
+            f()
+           save()
+        }
+
+        function msk() {
+
+            const inputKet = document.querySelector('.inputKet')
+            const ket = inputKet.value
+              const inputUang = document.querySelector('.inputUang')
+            const uang = inputUang.value
+
+             const inputDate= document.querySelector('.inputDate')
+            const date = inputDate.value
+            
+    
+                
+                   uangSekarang += Number(uang)
+                
+        
+           
+            array8.push({
+                ket: ket,
+                uang: uang,
+                date: date,
+                uangsekarang : uangSekarang
+            })
+            
+           inputKet.value = ''
+           inputUang.value = ''
+            f()
+            save()
+          
+        }
+
+       function save() {
+        localStorage.setItem('saver', JSON.stringify(array8))
+        localStorage.setItem('uangSekarang', uangSekarang)
+       }
+
+    </script>
+</body>
+</html>

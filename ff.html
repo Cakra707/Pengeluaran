@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input class="inputKet" placeholder="Keterangan">
+    <input class="inputUang" placeholder="Jumlah Uang (ribu)">
+    <input type="date" class="inputDate">
+    <button onclick="p()" class="keluar">Keluar</button>
+    <button onclick="msk()" class="masuk">Masuk</button>
+   
+    <button onclick="l()">reset</button>
+
+    <div class="er"></div>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f6f9;
+            margin: 20px;
+        }
+
+        input, button {
+            padding: 8px 12px;
+            margin: 5px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            cursor: pointer;
+            background: #007bff;
+            color: white;
+            border: none;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #0056b3;
+        }
+
+        .er {
+            margin-top: 20px;
+            display: grid;
+            gap: 10px;
+        }
+
+        .card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+
+        .ket {
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .uang {
+            color: #28a745;
+            font-size: 14px;
+        }
+
+        .uang.negatif {
+            color: #dc3545;
+        }
+
+        .date {
+            color: #666;
+            font-size: 12px;
+        }
+
+        .saldo {
+            margin-top: 8px;
+            padding: 6px;
+            background: #f1f3f5;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+    </style>
+</body>
+<script>
+    let array8 = JSON.parse(localStorage.getItem('saver')) || []
+
+        f()
+       
+        let uangSekarang = Number(localStorage.getItem('uangSekarang')) || 1750 //juta or k
+        
+        function l() {
+
+            array8 = []
+            localStorage.removeItem('saver') 
+            localStorage.removeItem('uangSekarang')
+        }
+    
+        
+
+        function f() {
+            
+           function f() {
+    let r = "";
+
+    for (let i = 0; i < array8.length; i++) {
+        const todoobject = array8[i];
+        const { ket, uang, date, uangsekarang } = todoobject;
+
+        r += `
+        <div class="card">
+            <div class="ket">${ket}</div>
+            <div class="uang ${Number(uang) < 0 ? 'negatif' : ''}">
+                ${uang}K
+            </div>
+            <div class="date">${date}</div>
+            <div class="saldo">Uang saat ini: ${uangsekarang}K</div>
+        </div>
+        `;
+    }
+
+    document.querySelector('.er').innerHTML = r;
+}
+
+        }
+       
+        function p() {
+
+            const inputKet = document.querySelector('.inputKet')
+            const ket = inputKet.value
+              const inputUang = document.querySelector('.inputUang')
+            const uang = inputUang.value
+
+             const inputDate= document.querySelector('.inputDate')
+            const date = inputDate.value
+            
+            
+                uangSekarang -= Number(uang)
+               
+           
+            array8.push({
+                ket: ket,
+                uang: uang,
+                date: date,
+                uangsekarang : uangSekarang
+            })
+                
+           inputKet.value = ''
+           inputUang.value = ''
+            f()
+           save()
+        }
+
+        function msk() {
+
+            const inputKet = document.querySelector('.inputKet')
+            const ket = inputKet.value
+              const inputUang = document.querySelector('.inputUang')
+            const uang = inputUang.value
+
+             const inputDate= document.querySelector('.inputDate')
+            const date = inputDate.value
+            
+    
+                
+                   uangSekarang += Number(uang)
+                
+        
+           
+            array8.push({
+                ket: ket,
+                uang: uang,
+                date: date,
+                uangsekarang : uangSekarang
+            })
+            
+           inputKet.value = ''
+           inputUang.value = ''
+            f()
+            save()
+          
+        }
+
+       function save() {
+        localStorage.setItem('saver', JSON.stringify(array8))
+        localStorage.setItem('uangSekarang', uangSekarang)
+       }
+
+</script>
+</html>
