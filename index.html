@@ -4,16 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-  
+   
+<style>
+
+    .k{
+      color: red;
+    }
+    
+    .g {
+      color:green;
+    }
+    
+    .grid{
+      display: grid;
+  grid-template-columns: 200px 150px 100px 100px 100px 150px 150px;
+  column-gap: 10px;
+  row-gap: 10px;
+  align-items: center;
+    }
+    
+</style>
 </head>
 <body>
-<style>
-    .grid {
-      display: flex;
-        
-    }
-</style>
-    <input class="inputKet" placeholder="Keterangan">
+ 
+<div class="tf"> 
+<input class="inputKet" placeholder="Keterangan">
       <input class="inputUang" placeholder="Jumlah Uang (ribu)">
       <input type="date" class="inputDate">
     <button onclick="
@@ -29,10 +44,13 @@
     l()">reset</button>
 
      
-
+  <button onclick="op()">Uang Saat Ini</button>
     
-    
+    <p></p>
     <div class="er grid"></div>
+</div>
+    
+    
 
 </body>
     <script>
@@ -49,7 +67,9 @@
             localStorage.removeItem('uangSekarang')
         }
     
-        
+        function op() {
+          alert(uangSekarang)
+        }
 
         function f() {
             
@@ -57,26 +77,51 @@
 
           for( let i = 0; i < array8.length; i++) {
             const todoobject = array8[i];
-            const {ket, uang, date, uangsekarang} = todoobject
-            const html = `<div>${ket}</>
+            const {ket, uang, date, uangsekarang, type} = todoobject
+            const html = `<div class=" ${type === "masuk" ?  'g' : 'k'} ki" >
+            <div>${ket}</>
                         <div>${uang}K</>
                          <div>${date}</>
-                          <div> Uang saat ini: ${uangsekarang}K</>`
+                          <div> Uang saat ini: ${uangsekarang}K</div>
+                          <button onclick=" hapus(${i}) ">delete</button>
+                          </div>`
             
             r += html
-            
-             
           }
             document.querySelector('.er').innerHTML = `${r}`
             
         }
+        
+        
+        function hapus(i) {
+  const transaksi = array8[i]
+
+  if (!transaksi) return
+
+  // Balikkan efek transaksi ke saldo
+  if (transaksi.type === "masuk") {
+    uangSekarang -= Number(transaksi.uang)
+  } else if (transaksi.type === "keluar") {
+    uangSekarang += Number(transaksi.uang)
+  }
+
+  // Hapus dari array
+  array8.splice(i, 1)
+
+  // Simpan ulang
+  save()
+
+  // Render ulang
+  f()
+}
+       
        
         function p() {
-
+        
             const inputKet = document.querySelector('.inputKet')
             const ket = inputKet.value
               const inputUang = document.querySelector('.inputUang')
-            const uang = inputUang.value
+            const uang = inputUang.value.replace(/[^0-9]/g, "")
 
              const inputDate= document.querySelector('.inputDate')
             const date = inputDate.value
@@ -89,12 +134,17 @@
                 ket: ket,
                 uang: uang,
                 date: date,
-                uangsekarang : uangSekarang
+                uangsekarang : uangSekarang,
+                type : "keluar"
             })
                 
            inputKet.value = ''
            inputUang.value = ''
             f()
+            
+            
+            
+            
            save()
         }
 
@@ -103,7 +153,7 @@
             const inputKet = document.querySelector('.inputKet')
             const ket = inputKet.value
               const inputUang = document.querySelector('.inputUang')
-            const uang = inputUang.value
+            const uang = inputUang.value.replace(/[^0-9]/g, "")
 
              const inputDate= document.querySelector('.inputDate')
             const date = inputDate.value
@@ -118,7 +168,8 @@
                 ket: ket,
                 uang: uang,
                 date: date,
-                uangsekarang : uangSekarang
+                uangsekarang : uangSekarang,
+                type : "masuk"
             })
             
            inputKet.value = ''
@@ -126,7 +177,11 @@
             f()
             save()
           
+          
+          
         }
+
+
 
        function save() {
         localStorage.setItem('saver', JSON.stringify(array8))
