@@ -37,6 +37,9 @@
 
     <button onclick="
     l()">reset</button>
+    <button class="ya" onclick="yaa()">Yakin</button>
+    <button class="tidak" onclick="ya.hidden = true
+        tidak.hidden = true">Tidak</button>
 
      
   <button onclick="op()">Uang Saat Ini</button>
@@ -55,13 +58,26 @@
        
         let uangSekarang = Number(localStorage.getItem('uangSekarang')) || 1750 //juta or k
         
-        function l() {
+        const ya = document.querySelector('.ya')
+        const tidak = document.querySelector('.tidak')
+        
 
+        ya.hidden = true
+        tidak.hidden = true
+
+        function l() {
+          ya.hidden = false
+          tidak.hidden = false
+            
+        }
+        
+        function yaa() {
             array8 = []
             localStorage.removeItem('saver') 
             localStorage.removeItem('uangSekarang')
+            ya.hidden = true
+            tidak.hidden = true
         }
-    
         function op() {
           alert(`${uangSekarang}K`)
         }
