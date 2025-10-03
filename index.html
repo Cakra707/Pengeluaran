@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>bank</title>
    
 <style>
 
@@ -15,19 +15,14 @@
       color:green;
     }
     
-    .grid{
-      display: grid;
-  grid-template-columns: 200px 150px 100px 100px 100px 150px 150px;
-  column-gap: 10px;
-  row-gap: 10px;
-  align-items: center;
-    }
+    
     
 </style>
 </head>
 <body>
- 
+ <h1>1750K</h1>
 <div class="tf"> 
+  
 <input class="inputKet" placeholder="Keterangan">
       <input class="inputUang" placeholder="Jumlah Uang (ribu)">
       <input type="date" class="inputDate">
@@ -46,7 +41,7 @@
      
   <button onclick="op()">Uang Saat Ini</button>
     
-    <p></p>
+   
     <div class="er grid"></div>
 </div>
     
@@ -68,7 +63,7 @@
         }
     
         function op() {
-          alert(uangSekarang)
+          alert(`${uangSekarang}K`)
         }
 
         function f() {
@@ -79,11 +74,15 @@
             const todoobject = array8[i];
             const {ket, uang, date, uangsekarang, type} = todoobject
             const html = `<div class=" ${type === "masuk" ?  'g' : 'k'} ki" >
-            <div>${ket}</>
+                        <div class="ketclass" >${ket}</div>
+
                         <div>${uang}K</>
-                         <div>${date}</>
-                          <div> Uang saat ini: ${uangsekarang}K</div>
-                          <button onclick=" hapus(${i}) ">delete</button>
+
+                        <div>${date}</>
+
+                        <div> Uang saat ini: ${uangsekarang}K</div>
+
+                        <button onclick=" hapus(${i}) ">delete</button>
                           </div>`
             
             r += html
